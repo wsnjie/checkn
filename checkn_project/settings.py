@@ -78,8 +78,8 @@ WSGI_APPLICATION = "checkn_project.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "checkn",
-        "USER": "admin",
+        "NAME": "checkn2",
+        "USER": "will",
         "PASSWORD": "onetwothree",
         "HOST": "localhost",
     }
