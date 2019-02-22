@@ -147,7 +147,8 @@ STATIC_URL = "/static/"
 
 LOGIN_URL = "login"
 LOGOUT_URL = "logout"
-LOGIN_REDIRECT_URL = "home"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
 
 TEMPLATE_DIRS = (PROJECT_PATH + "/templates/",)
 
