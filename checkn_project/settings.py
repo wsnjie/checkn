@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "checkn_app",
     "social_django",
+    "accounts",
 ]
 
 MIDDLEWARE = [
