@@ -13,6 +13,7 @@ class Place(models.Model):
 
 class AppUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, blank=True)
     lon = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
     lat = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
     friends = models.ManyToManyField(
@@ -35,7 +36,7 @@ class AppUser(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        AppUser.objects.create(user=instance)
+        AppUser.objects.create(user=instance, name=instance.username)
 
 
 @receiver(post_save, sender=User)

@@ -4,6 +4,9 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
+from .models import AppUser
+from .serializers import AppUserSerializer
+from rest_framework import viewsets
 
 
 class SignUp(generic.CreateView):
@@ -11,3 +14,7 @@ class SignUp(generic.CreateView):
     success_url = reverse_lazy("login")
     template_name = "signup.html"
 
+
+class AppUserView(viewsets.ModelViewSet):
+    queryset = AppUser.objects.all()
+    serializer_class = AppUserSerializer

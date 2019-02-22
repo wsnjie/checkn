@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "checkn_app",
     "social_django",
     "accounts",
+    "rest_framework.authtoken",
+    "rest_auth",
 ]
 
 MIDDLEWARE = [
@@ -150,3 +152,10 @@ LOGOUT_REDIRECT_URL = "/"
 
 TEMPLATE_DIRS = (PROJECT_PATH + "/templates/",)
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+    ]
+}
