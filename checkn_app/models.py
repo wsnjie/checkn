@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 # Create your models here.
 class Place(models.Model):
@@ -8,9 +11,8 @@ class Place(models.Model):
         return self.name
 
 
-class User(models.Model):
-    name = models.CharField(max_length=100)
-    auth_id = models.CharField(max_length=100)
+class AppUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     lon = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
     lat = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
     friends = models.ManyToManyField(
@@ -19,7 +21,7 @@ class User(models.Model):
     status = models.CharField(max_length=100)
     place = models.ForeignKey(
         Place,
-        default=1,
+        default="",
         on_delete=models.CASCADE,
         related_name="place_name",
         blank=True,
@@ -27,5 +29,15 @@ class User(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return self.user.username
 
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        AppUser.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    instance.appuser.save()
