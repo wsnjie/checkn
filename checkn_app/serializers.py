@@ -3,16 +3,23 @@ from .models import AppUser, Place
 from django.contrib.auth.models import User
 
 
-class UserSerializer(serializers.ModelSerializer):
+class FriendSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
-        fields = "username"
+        model = AppUser
+        fields = ("id", "name")
 
 
 class AppUserSerializer(serializers.ModelSerializer):
-    # user = UserSerializer(read_only=True)
+    friends = FriendSerializer(many=True)
 
     class Meta:
         model = AppUser
-        fields = ("id", "name", "friends")
+        fields = "__all__"
 
+
+class UserSerializer(serializers.ModelSerializer):
+    app_user = AppUserSerializer()
+
+    class Meta:
+        model = User
+        fields = ("id", "app_user")
