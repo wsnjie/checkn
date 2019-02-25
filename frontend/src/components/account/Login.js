@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from "react-router-dom"
 
 class Login extends Component {
     state = {
@@ -17,10 +18,16 @@ class Login extends Component {
 
     }
 
-    login = () => {
-        this.props.authenticateUser(this.state.value.username, this.state.value.password)
+    login = async () => {
+        await this.props.authenticateUser(this.state.value.username, this.state.value.password)
+        return <Redirect to="/dashboard/" />
     }
+
     render() {
+        const isLoggedIn = this.props.isLoggedIn
+        if (isLoggedIn === true) {
+            return <Redirect to="/dashboard/" />
+        }
         return (
             <div>
                 <input name="username" onChange={this.handleChange}></input>
