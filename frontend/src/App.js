@@ -52,7 +52,14 @@ class App extends Component {
 
 
   logout = () => {
-
+    let config = {
+      headers: {
+        'Authorization': `Token ${this.state.token.key}`
+      }
+    }
+    axios.post("http://localhost:8000/rest-auth/logout/", {}, config).then((res) => {
+      this.setState({ isLoggedIn: false, token: "" })
+    })
   }
 
   render() {
@@ -65,12 +72,15 @@ class App extends Component {
     }
 
     const dashboardComponent = () => {
-      return <Dashboard />
+      return <Dashboard
+        isLoggedIn={this.state.isLoggedIn}
+        friends={this.state.user.app_user.friends}
+      />
     }
     return (
       <Router>
         <div>
-          <NavBar name={this.state.user.app_user.name} logout={this.state.logout} isLoggedIn={this.state.isLoggedIn}></NavBar>
+          <NavBar name={this.state.user.app_user.name} logout={this.logout} isLoggedIn={this.state.isLoggedIn}></NavBar>
           <Switch>
             <Route exact path="/" render={loginComponent} />
             <Route exact path="/dashboard/" render={dashboardComponent} />
