@@ -6,6 +6,9 @@ from django.dispatch import receiver
 # Create your models here.
 class Place(models.Model):
     name = models.CharField(max_length=100)
+    users = models.ManyToManyField(
+        "AppUser", default="", related_name="users", blank=True, null=True
+    )
 
     def __str__(self):
         return self.name

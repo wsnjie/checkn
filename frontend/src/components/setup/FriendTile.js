@@ -7,10 +7,14 @@ width: 250px;
 `
 
 class FriendTile extends Component {
+    addToUsers = () => {
+        this.props.addToUsers(this.props.user)
+    }
+
     render() {
         return (
             <StyledTile>
-                {this.props.name}
+                <span>{this.props.name}<button onClick={this.addToUsers}>+</button></span>
             </StyledTile>
 
         );

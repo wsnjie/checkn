@@ -21,6 +21,15 @@ class Dashboard extends Component {
         users: []
 
     }
+
+    addToUsers = (friend) => {
+        console.log(this.props.friends)
+        console.log(friend)
+        console.log(this.props.friends[friend])
+        const users = this.state.users
+        users.push(this.props.friends[friend])
+        this.setState({ users: users })
+    }
     render() {
         const isLoggedIn = this.props.isLoggedIn
         if (isLoggedIn === false) {
@@ -37,7 +46,10 @@ class Dashboard extends Component {
                     <h2>Select Your Friends</h2>
                     {this.props.friends.map((friend, i) => {
                         return <FriendTile
+                            key={i}
+                            user={i}
                             name={friend.name}
+                            addToUsers={this.addToUsers}
                         />
                     })}
                 </StyledFriendsList>

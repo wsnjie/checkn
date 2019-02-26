@@ -1,5 +1,6 @@
 from rest_framework import serializers
-from .models import AppUser, Place
+from .models import AppUser
+from .models import Place
 from django.contrib.auth.models import User
 
 
@@ -23,3 +24,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "app_user")
+
+
+class PlaceSerializer(serializers.ModelSerializer):
+    users = AppUserSerializer(many=True)
+
+    class Meta:
+        model = Place
+        fields = "__all__"
