@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -39,16 +41,27 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "checkn_app",
+    "social_django",
+    "accounts",
+    "rest_framework.authtoken",
+    "rest_auth",
+    "corsheaders",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "rest_auth.registration",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "social_django.middleware.SocialAuthExceptionMiddleware",
 ]
 
 ROOT_URLCONF = "checkn_project.urls"
@@ -64,6 +77,8 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
             ]
         },
     }
@@ -77,11 +92,8 @@ WSGI_APPLICATION = "checkn_project.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "checkn2",
-        "USER": "will",
-        "PASSWORD": "onetwothree",
-        "HOST": "localhost",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
@@ -124,4 +136,43 @@ REST_FRAMEWORK = {
     ]
 }
 
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+
+AUTHENTICATION_BACKENDS = (
+    "social_core.backends.github.GithubOAuth2",
+    "social_core.backends.open_id.OpenIdAuth",
+    "social_core.backends.google.GoogleOpenId",
+    "social_core.backends.google.GoogleOAuth2",
+    "social_core.backends.google.GoogleOAuth",
+    "social_core.backends.twitter.TwitterOAuth",
+    "social_core.backends.yahoo.YahooOpenId",
+    "django.contrib.auth.backends.ModelBackend",
+)
+
 STATIC_URL = "/static/"
+
+LOGIN_URL = "login"
+LOGOUT_URL = "logout"
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+TEMPLATE_DIRS = (PROJECT_PATH + "/templates/",)
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication"  # <-- And here
+    ],
+}
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = ("localhost:3000",)
+CORS_ORIGIN_REGEX_WHITELIST = ("localhost:3000",)
+CSRF_COOKIE_NAME = "XSRF-TOKEN"
+SITE_ID = 1
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
