@@ -50,6 +50,17 @@ class App extends Component {
       })
   }
 
+  registerUser = (username, password, password2) => {
+    axios.post("http://localhost:8000/rest-auth/registration/", { 'username': username, 'email': username + "@gmail.com", 'password1': password, 'password2': password2 })
+      .then((res) => {
+        console.log(res.data)
+        this.setState({ token: res.data })
+      })
+      .then(() => {
+        this.getCurrentUser()
+      })
+  }
+
 
   logout = () => {
     let config = {
@@ -69,6 +80,7 @@ class App extends Component {
         authenticateUser={this.authenticateUser}
         getCurrentUser={this.getCurrentUser}
         isLoggedIn={this.state.isLoggedIn}
+        registerUser={this.registerUser}
       />
     }
 
@@ -86,6 +98,7 @@ class App extends Component {
       return <Checkn
         user={this.state.user}
         token={this.state.token}
+        isLoggedIn={this.state.isLoggedIn}
       />
     }
     return (

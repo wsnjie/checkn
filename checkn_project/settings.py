@@ -46,6 +46,10 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",
     "rest_auth",
     "corsheaders",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "rest_auth.registration",
 ]
 
 MIDDLEWARE = [
@@ -169,3 +173,6 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = ("localhost:3000",)
 CORS_ORIGIN_REGEX_WHITELIST = ("localhost:3000",)
 CSRF_COOKIE_NAME = "XSRF-TOKEN"
+SITE_ID = 1
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+

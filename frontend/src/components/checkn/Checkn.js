@@ -3,6 +3,7 @@ import axios from "axios"
 import UserTile from './UserTile';
 import styled from 'styled-components'
 import StatusButton from './StatusButton';
+import { Redirect } from "react-router-dom"
 
 const StyledStatusBar = styled.div`
 display: flex;
@@ -46,12 +47,17 @@ class Checkn extends Component {
         let userUpdate = this.props.user.app_user
         userUpdate.status = status
         axios.put(`http://localhost:8000/api/appuser/${userUpdate.id}/`, userUpdate, config).then((res) => {
-            return console.log(res)
+            return
         }).then(() => {
             this.getPlace()
         })
     }
     render() {
+        const isLoggedIn = this.props.isLoggedIn
+        if (isLoggedIn === false) {
+            return <Redirect to="/" />
+        }
+
         let userTiles =
             this.state.place.user_list.map((user, i) => {
                 return <UserTile

@@ -26,4 +26,6 @@ urlpatterns = [
     url(r"^oauth/", include("social_django.urls", namespace="social")),
     url(r"^rest-auth/", include("rest_auth.urls")),
     path("api/", include("checkn_app.urls")),
+    url(r"^rest-auth/", include("rest_auth.urls")),
+    url(r"^rest-auth/registration/", include("rest_auth.registration.urls")),
 ]
