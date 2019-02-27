@@ -6,9 +6,6 @@ from django.dispatch import receiver
 # Create your models here.
 class Place(models.Model):
     name = models.CharField(max_length=100)
-    users = models.ManyToManyField(
-        "AppUser", default="", related_name="users", blank=True, null=True
-    )
 
     def __str__(self):
         return self.name
@@ -22,12 +19,12 @@ class AppUser(models.Model):
     friends = models.ManyToManyField(
         "self", default=1, related_name="friends_list", blank=True
     )
-    status = models.CharField(max_length=100)
+    status = models.CharField(max_length=100, default="", blank="true")
     place = models.ForeignKey(
         Place,
         default="",
         on_delete=models.CASCADE,
-        related_name="place_name",
+        related_name="user_list",
         blank=True,
         null=True,
     )

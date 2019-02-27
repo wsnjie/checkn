@@ -6,6 +6,7 @@ import Login from './components/account/Login';
 import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom"
 import Dashboard from './components/Dashboard';
+import Checkn from './components/checkn/Checkn';
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
@@ -35,7 +36,6 @@ class App extends Component {
       this.setState({ isLoggedIn: true })
     })
       .then(() => {
-        console.log("redirecting")
 
       })
   }
@@ -65,6 +65,7 @@ class App extends Component {
   render() {
     const loginComponent = () => {
       return <Login
+        user={this.state.user}
         authenticateUser={this.authenticateUser}
         getCurrentUser={this.getCurrentUser}
         isLoggedIn={this.state.isLoggedIn}
@@ -73,8 +74,18 @@ class App extends Component {
 
     const dashboardComponent = () => {
       return <Dashboard
+        user={this.state.user}
+        token={this.state.token}
         isLoggedIn={this.state.isLoggedIn}
         friends={this.state.user.app_user.friends}
+        getCurrentUser={this.getCurrentUser}
+      />
+    }
+
+    const checknComponent = () => {
+      return <Checkn
+        user={this.state.user}
+        token={this.state.token}
       />
     }
     return (
@@ -84,6 +95,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={loginComponent} />
             <Route exact path="/dashboard/" render={dashboardComponent} />
+            <Route exact path="/checkn/" render={checknComponent} />
           </Switch>
         </div>
       </Router>

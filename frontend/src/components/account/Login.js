@@ -24,10 +24,18 @@ class Login extends Component {
     }
 
     render() {
+        let route = "/dashboard/"
         const isLoggedIn = this.props.isLoggedIn
+        const checknCheck = this.props.user.app_user.place
+        if (checknCheck > 0) {
+            return <Redirect to="/checkn/" />
+        }
+
         if (isLoggedIn === true) {
+            console.log(route)
             return <Redirect to="/dashboard/" />
         }
+
         return (
             <div>
                 <input name="username" onChange={this.handleChange}></input>

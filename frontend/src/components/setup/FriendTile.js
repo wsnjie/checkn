@@ -11,10 +11,25 @@ class FriendTile extends Component {
         this.props.addToUsers(this.props.user)
     }
 
+    removeFromUsers = () => {
+        this.props.removeFromUsers(this.props.user)
+    }
+
     render() {
+        const add = this.addToUsers
+        const remove = this.removeFromUsers
+        let action = ""
+        let key = ""
+        if (this.props.action === "add") {
+            action = add
+            key = "+"
+        } else if (this.props.action === "remove") {
+            action = remove
+            key = "-"
+        }
         return (
             <StyledTile>
-                <span>{this.props.name}<button onClick={this.addToUsers}>+</button></span>
+                <span>{this.props.name}<button onClick={action}>{key}</button></span>
             </StyledTile>
 
         );

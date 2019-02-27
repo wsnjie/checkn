@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import UserSerializer
 from .serializers import PlaceSerializer
+from rest_framework import status
 
 
 class SignUp(generic.CreateView):
@@ -31,6 +32,13 @@ class PlaceView(viewsets.ModelViewSet):
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
 
+    def post(self, request, format=None):
+        serializer = PlaceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors)
+
 
 @api_view(["GET"])
 @permission_classes((permissions.AllowAny,))
@@ -41,3 +49,4 @@ def current_user(request):
 
     serializer = UserSerializer(request.user)
     return Response(serializer.data)
+

@@ -7,11 +7,11 @@ from django.contrib.auth.models import User
 class FriendSerializer(serializers.ModelSerializer):
     class Meta:
         model = AppUser
-        fields = ("id", "name")
+        fields = "__all__"
 
 
 class AppUserSerializer(serializers.ModelSerializer):
-    friends = FriendSerializer(many=True)
+    friends = FriendSerializer(many=True, read_only=True)
 
     class Meta:
         model = AppUser
@@ -27,8 +27,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PlaceSerializer(serializers.ModelSerializer):
-    users = AppUserSerializer(many=True)
+    name = serializers.CharField()
+    user_list = AppUserSerializer(many=True, read_only=True)
 
     class Meta:
         model = Place
         fields = "__all__"
+
