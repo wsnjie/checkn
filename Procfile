@@ -1,0 +1,1 @@
+web: gunicorn checkn_project.wsgi --log-file -
