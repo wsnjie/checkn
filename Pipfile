@@ -15,6 +15,9 @@ restauth = "*"
 django-rest-auth = {extras = ["with_social"],version = "*"}
 gunicorn = "*"
 django-heroku = "*"
+social-auth-core = "*"
+social-auth-app-django = "*"
+django-cors-headers = "*"
 
 [requires]
 python_version = "3.7"
