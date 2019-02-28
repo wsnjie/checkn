@@ -31,7 +31,7 @@ class App extends Component {
         'Authorization': `Token ${this.state.token.key}`
       }
     }
-    axios.get("/api/current_user/", config).then((res) => {
+    axios.get("/api/current_user", config).then((res) => {
       this.setState({ user: res.data })
       this.setState({ isLoggedIn: true })
     })
@@ -40,7 +40,7 @@ class App extends Component {
       })
   }
   authenticateUser = (username, password) => {
-    axios.post("/rest-auth/login/", { 'username': username, 'email': "", 'password': password })
+    axios.post("/rest-auth/login", { 'username': username, 'email': "", 'password': password })
       .then((res) => {
         console.log(res.data)
         this.setState({ token: res.data })
@@ -51,7 +51,7 @@ class App extends Component {
   }
 
   registerUser = (username, password, password2) => {
-    axios.post("/rest-auth/registration/", { 'username': username, 'email': username + "@gmail.com", 'password1': password, 'password2': password2 })
+    axios.post("/rest-auth/registration", { 'username': username, 'email': username + "@gmail.com", 'password1': password, 'password2': password2 })
       .then((res) => {
         console.log(res.data)
         this.setState({ token: res.data })
