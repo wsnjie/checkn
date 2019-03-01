@@ -61,7 +61,7 @@ class Dashboard extends Component {
             console.log(user)
             let payload = user
             payload.place = pId
-            axios.put(`http://localhost:8000/api/appuser/${payload.id}/`, payload, config)
+            axios.put(`/api/appuser/${payload.id}/`, payload, config)
                 .then((res) => {
                     return console.log(res)
                 }).then(() => {
@@ -81,7 +81,7 @@ class Dashboard extends Component {
                 'Authorization': `Token ${this.props.token.key}`
             }
         }
-        axios.post("http://localhost:8000/api/place/", newPlace, config).then((res) => {
+        axios.post("ß/api/place/", newPlace, config).then((res) => {
             this.setState({ placeId: res.data.id })
             return console.log(res.data)
         }).then(() => {

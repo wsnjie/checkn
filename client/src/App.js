@@ -69,7 +69,7 @@ class App extends Component {
         'Authorization': `Token ${this.state.token.key}`
       }
     }
-    axios.post("http://localhost:8000/rest-auth/logout/", {}, config).then((res) => {
+    axios.post("/rest-auth/logout/", {}, config).then((res) => {
       this.setState({ isLoggedIn: false, token: "" })
     })
   }
