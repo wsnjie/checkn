@@ -23,7 +23,7 @@ class AppUser(models.Model):
     place = models.ForeignKey(
         Place,
         default="",
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name="user_list",
         blank=True,
         null=True,
