@@ -81,7 +81,7 @@ class Dashboard extends Component {
                 'Authorization': `Token ${this.props.token.key}`
             }
         }
-        axios.post("ß/api/place/", newPlace, config).then((res) => {
+        axios.post("/api/place/", newPlace, config).then((res) => {
             this.setState({ placeId: res.data.id })
             return console.log(res.data)
         }).then(() => {
