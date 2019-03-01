@@ -2,7 +2,7 @@ Overview
 ============
 CheckN is an app desigined to help you keep track of your friends during a night out or a trip to the zoo.  
 
-Link to Heroku deployment: [Here!](https://fest-pack.herokuapp.com/)
+Link to Heroku deployment: [Here!](https://checkn-project.herokuapp.com/)
 
 
 
