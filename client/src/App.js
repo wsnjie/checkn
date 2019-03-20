@@ -74,6 +74,12 @@ class App extends Component {
     })
   }
 
+  clearUserPlace = () => {
+    let user = { ...this.state.user }
+    user.app_user.place = null
+    this.setState({ user: user })
+  }
+
   render() {
     const loginComponent = () => {
       return <Login
@@ -100,6 +106,8 @@ class App extends Component {
         user={this.state.user}
         token={this.state.token}
         isLoggedIn={this.state.isLoggedIn}
+        getCurrentUser={this.getCurrentUser}
+        clearUserPlace={this.clearUserPlace}
       />
     }
     return (

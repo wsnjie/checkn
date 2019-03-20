@@ -34,7 +34,7 @@ class Checkn extends Component {
     getPlace = () => {
         const place = this.props.user.app_user.place
         console.log(place)
-        axios.get(`http://localhost:8000/api/place/${place}`).then((res) => {
+        axios.get(`/api/place/${place}`).then((res) => {
             this.setState({ place: res.data })
         })
     }
@@ -46,16 +46,41 @@ class Checkn extends Component {
         }
         let userUpdate = this.props.user.app_user
         userUpdate.status = status
-        axios.put(`http://localhost:8000/api/appuser/${userUpdate.id}/`, userUpdate, config).then((res) => {
+        axios.put(`/api/appuser/${userUpdate.id}/`, userUpdate, config).then((res) => {
             return
         }).then(() => {
             this.getPlace()
         })
     }
+
+    endPlace = () => {
+        let config = {
+            headers: {
+                'Authorization': `Token ${this.props.token.key}`
+            }
+        }
+        this.state.place.user_list.forEach((user) => {
+            const currentUser = user
+            currentUser.place = null
+            console.log(currentUser)
+            axios.put(`/api/appuser/${currentUser.id}/`, currentUser, config)
+        })
+
+    }
+
+    clearPlace = async (clear) => {
+        await clear()
+        this.props.clearUserPlace()
+    }
     render() {
         const isLoggedIn = this.props.isLoggedIn
+        const checknCheck = this.props.user.app_user.place
         if (isLoggedIn === false) {
             return <Redirect to="/" />
+        }
+
+        if (checknCheck === null) {
+            return <Redirect to="/dashboard/" />
         }
 
         let userTiles =
@@ -80,7 +105,8 @@ class Checkn extends Component {
                 <StyledStatusBar>
                     {userTiles}
                 </StyledStatusBar>
-                <button onClick={this.getPlace}></button>
+                <button onClick={this.getPlace}>@</button>
+                <button onClick={() => this.clearPlace(this.endPlace)}>End CheckN</button>
             </div>
         );
     }
