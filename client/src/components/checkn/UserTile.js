@@ -14,6 +14,7 @@ class UserTile extends Component {
                 <h1>{this.props.user.name}</h1>
                 <h3>Current Status</h3>
                 <h4>{this.props.user.status}</h4>
+                <p>Coordinates: {this.props.user.lat} {this.props.user.lon}</p>
             </StyledTile>
         );
     }

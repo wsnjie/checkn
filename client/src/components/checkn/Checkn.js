@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios"
 import UserTile from './UserTile';
+import MapContainer from './MapContainer'
 import styled from 'styled-components'
 import StatusButton from './StatusButton';
 import { Redirect } from "react-router-dom"
@@ -26,11 +27,14 @@ class Checkn extends Component {
         statusOptions: [":)", ":(", "X"]
     }
     componentDidMount() {
-        console.log(this.props.user)
-        console.log(this.state.place)
         this.getPlace()
+        navigator.geolocation.getCurrentPosition(this.updateLocation)
+        navigator.geolocation.watchPosition(this.updateLocation)
     }
 
+    componentWillUnmount() {
+        navigator.geolocation.clearWatch()
+    }
     getPlace = () => {
         const place = this.props.user.app_user.place
         console.log(place)
@@ -53,6 +57,25 @@ class Checkn extends Component {
         })
     }
 
+    updateLocation = (position) => {
+        let config = {
+            headers: {
+                'Authorization': `Token ${this.props.token.key}`
+            }
+        }
+        let userUpdate = this.props.user.app_user
+        const lat = parseFloat(position.coords.latitude.toFixed(6))
+        const lon = parseFloat(position.coords.longitude.toFixed(6))
+        console.log("Latitude: " + lat + " Longitude: " + lon)
+        userUpdate.lat = lat
+        userUpdate.lon = lon
+
+        axios.put(`/api/appuser/${userUpdate.id}/`, userUpdate, config).then((res) => {
+            return
+        }).then(() => {
+            this.getPlace()
+        })
+    }
     endPlace = () => {
         let config = {
             headers: {
@@ -107,6 +130,7 @@ class Checkn extends Component {
                 </StyledStatusBar>
                 <button onClick={this.getPlace}>@</button>
                 <button onClick={() => this.clearPlace(this.endPlace)}>End CheckN</button>
+                <MapContainer user={this.props.user.app_user} users={this.state.place.user_list} />
             </div>
         );
     }
