@@ -7,7 +7,7 @@ import NavBar from './components/NavBar';
 import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom"
 import Dashboard from './components/Dashboard';
 import Checkn from './components/checkn/Checkn';
-require('dotenv').config()
+
 
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
